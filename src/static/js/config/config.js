@@ -1,65 +1,23 @@
-export const getWebsocketUrl = () => {
-	const apiKey = localStorage.getItem('apiKey');
-	return `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent?key=${apiKey}`;
-};
-
-export const getDeepgramApiKey = () => {
-	return localStorage.getItem('deepgramApiKey') || '';
-};
-
-// Audio Configurations
-export const MODEL_SAMPLE_RATE = parseInt(localStorage.getItem('sampleRate')) || 27000;
-
-const thresholds = {
-	0: "BLOCK_NONE",
-	1: "BLOCK_ONLY_HIGH",
-	2: "BLOCK_MEDIUM_AND_ABOVE",
-	3: "BLOCK_LOW_AND_ABOVE"
-}
-
-export const getConfig = () => ({
-	model: 'models/gemini-2.0-flash-exp',
-	generationConfig: {
-		temperature: parseFloat(localStorage.getItem('temperature')) || 1.8,
-		top_p: parseFloat(localStorage.getItem('top_p')) || 0.95,
-		top_k: parseInt(localStorage.getItem('top_k')) || 65,
-		responseModalities: "audio",
-		speechConfig: {
-			voiceConfig: {
-				prebuiltVoiceConfig: {
-					voiceName: localStorage.getItem('voiceName') || 'Aoede'
-				}
-			}
-		}
+export const CONFIG = {
+    API: {
+        VERSION: 'v1alpha',
+        MODEL_NAME: 'models/gemini-2.0-flash-exp'
     },
-	systemInstruction: {
-		parts: [{
-			text: localStorage.getItem('systemInstructions') || "You are a helpful assistant"
-		}]
+    // You can change the system instruction to your liking
+    SYSTEM_INSTRUCTION: {
+        TEXT: 'You are my helpful assistant. You can see and hear me, and respond with voice and text. If you are asked about things you do not know, you can use the google search tool to find the answer.',
     },
-	tools: {
-		functionDeclarations: [],
+    // Default audio settings
+    AUDIO: {
+        SAMPLE_RATE: 16000,
+        OUTPUT_SAMPLE_RATE: 24000,      // If you want to have fun, set this to around 14000 (u certainly will)
+        BUFFER_SIZE: 2048,
+        CHANNELS: 1
     },
-	safetySettings: [
-		{
-			"category": "HARM_CATEGORY_HARASSMENT",
-			"threshold": thresholds[localStorage.getItem('harassmentThreshold')] || "HARM_BLOCK_THRESHOLD_UNSPECIFIED"
-		},
-		{
-			"category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-			"threshold": thresholds[localStorage.getItem('dangerousContentThreshold')] || "HARM_BLOCK_THRESHOLD_UNSPECIFIED"
-		},
-		{
-			"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-			"threshold": thresholds[localStorage.getItem('sexuallyExplicitThreshold')] || "HARM_BLOCK_THRESHOLD_UNSPECIFIED"
-		},
-		{
-			"category": "HARM_CATEGORY_HATE_SPEECH",
-			"threshold": thresholds[localStorage.getItem('hateSpeechThreshold')] || "HARM_BLOCK_THRESHOLD_UNSPECIFIED"
-		},
-		{
-			"category": "HARM_CATEGORY_CIVIC_INTEGRITY",
-			"threshold": thresholds[localStorage.getItem('civicIntegrityThreshold')] || "HARM_BLOCK_THRESHOLD_UNSPECIFIED"
-		}
-	]
-});
+    // If you are working in the RoArm branch 
+    // ROARM: {
+    //     IP_ADDRESS: '192.168.1.4'
+    // }
+  };
+  
+  export default CONFIG; 
