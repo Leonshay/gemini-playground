@@ -1,6 +1,6 @@
 export const getWebsocketUrl = () => {
 	const apiKey = localStorage.getItem('apiKey');
-	return `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent?key=${apiKey}`;
+	return `wss://${window.location.host}/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent?key=${apiKey}`;
 };
 
 export const getDeepgramApiKey = () => {
